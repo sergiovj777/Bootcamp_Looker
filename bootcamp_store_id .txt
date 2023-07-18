@@ -1,0 +1,32 @@
+view: bootcamp_store_id {
+  #sql_table_name: `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_StoreId`
+    derived_table: {
+      sql: select * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_StoreId`
+      where Store_id != 0 ;;
+    }
+
+
+  dimension: store_id {
+    type: number
+    sql: ${TABLE}.Store_id;;
+
+  }
+
+  dimension: store_name {
+    type: string
+    sql: REGEXP_REPLACE(${TABLE}.Store_Name, '[0-9]+', '') ;;
+  }
+
+
+
+
+  dimension: store_zone {
+    type: string
+    sql: ${TABLE}.Store_Zone ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [store_name]
+  }
+}

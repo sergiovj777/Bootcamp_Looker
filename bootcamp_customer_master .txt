@@ -1,0 +1,62 @@
+view: bootcamp_customer_master {
+  #sql_table_name: `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Customer_Master`
+   derived_table: {
+    sql: select * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Customer_Master`
+
+     ;;
+  }
+
+  dimension: address {
+    type: string
+    sql: ${TABLE}.address ;;
+  }
+
+  dimension: city {
+    type: string
+    sql: SPLIT(${TABLE}.city, ' - ')[SAFE_OFFSET(1)] ;;
+
+  }
+
+
+
+  dimension: email {
+    type: string
+    sql: ${TABLE}.email ;;
+  }
+
+  dimension: id_cliente {
+    type: number
+    sql: ${TABLE}.Id_Cliente ;;
+  }
+
+  dimension: latitude {
+    type: number
+    sql: ${TABLE}.Latitude ;;
+  }
+
+  dimension: longitude {
+    type: number
+    sql: ${TABLE}.longitude ;;
+  }
+
+  dimension: mark_for_deletion {
+    type: yesno
+    sql: ${TABLE}.Mark_for_deletion;;
+  }
+
+  dimension: location {
+    type: location
+    sql_latitude: ${latitude} ;;
+    sql_longitude: ${longitude} ;;
+  }
+
+  dimension: name {
+    type: string
+    sql: ${TABLE}.name ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [name]
+  }
+}

@@ -1,0 +1,33 @@
+view: bootcamp_clerkid {
+  #sql_table_name: `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Clerkid`
+    derived_table: {
+      sql: select * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Clerkid`
+      where marcado_Borrado = "No";;
+    }
+
+  dimension: marcado_borrado {
+    type: string
+    sql: ${TABLE}.marcado_Borrado;;
+
+  }
+
+  dimension: nombre_vendedor {
+    type: string
+    sql: ${TABLE}.Nombre_Vendedor ;;
+  }
+
+  dimension: vendedor {
+    type: number
+    sql: ${TABLE}.Vendedor ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: []
+  }
+
+  measure: Count_vendedor {
+    type: string
+    sql: count(${TABLE}.Vendedor) ;;
+  }
+}

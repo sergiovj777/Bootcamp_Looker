@@ -1,0 +1,116 @@
+connection: "purplelab-dev"
+
+include: "/**/*.view.lkml"
+
+datagroup: dev_bootcamp_user2_default_datagroup {
+  max_cache_age: "1 hour"
+}
+
+persist_with: dev_bootcamp_user2_default_datagroup
+
+explore: fact_table {
+  label: "Fact Table"
+  join: bootcamp_customer_master {
+    sql_on: ${fact_table.customer_id} = ${bootcamp_customer_master.id_cliente};;
+    relationship: many_to_one
+  }
+  join: bootcamp_clerkid_comissions {
+    sql_on: ${fact_table.store_id} = ${bootcamp_clerkid_comissions.store_id} AND
+            ${fact_table.clerk_id} = ${bootcamp_clerkid.vendedor};;
+    relationship: many_to_one
+  }
+  join: bootcamp_store_id {
+    sql_on: ${fact_table.store_id} = ${bootcamp_store_id.store_id};;
+    relationship: many_to_one
+  }
+  join: bootcamp_clerkid {
+    sql_on: ${fact_table.clerk_id} = ${bootcamp_clerkid.vendedor} ;;
+    relationship: many_to_one
+  }
+  join: bootcamp_productid_master {
+    sql_on: ${fact_table.product_id} = ${bootcamp_productid_master.id_producto};;
+    relationship: many_to_one
+  }
+
+}
+
+explore: bootcamp_customer_master {
+  label: "Customer Master"
+  join: fact_table {
+    sql_on: ${fact_table.customer_id} = ${bootcamp_customer_master.id_cliente};;
+    relationship: many_to_one
+  }
+  join: bootcamp_store_id {
+    sql_on: ${fact_table.store_id} = ${bootcamp_store_id.store_id};;
+    relationship: many_to_one
+  }
+  join: bootcamp_clerkid {
+    sql_on: ${fact_table.clerk_id} = ${bootcamp_clerkid.vendedor} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: bootcamp_productid_master {
+  label: "Product ID Master"
+  join: fact_table {
+    sql_on: ${fact_table.product_id} = ${bootcamp_productid_master.id_producto};;
+    relationship: many_to_one
+  }
+  join: bootcamp_store_id {
+    sql_on: ${bootcamp_productid_master.id_producto} = ${bootcamp_store_id.store_id};;
+    relationship: many_to_one
+  }
+  join: bootcamp_clerkid_comissions {
+    sql_on: ${fact_table.store_id} = ${bootcamp_clerkid_comissions.store_id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: bootcamp_clerkid {
+  label: "Clerk Id"
+  join: fact_table {
+    sql_on: ${fact_table.clerk_id} = ${bootcamp_clerkid.vendedor} ;;
+    relationship: many_to_one
+  }
+  join: bootcamp_productid_master {
+    sql_on: ${bootcamp_clerkid.vendedor} = ${bootcamp_productid_master.id_producto} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: bootcamp_clerkid_comissions {
+  label: "Clerk Id Comissions"
+  join: fact_table {
+    sql_on: ${fact_table.store_id} = ${bootcamp_clerkid_comissions.store_id} ;;
+    relationship: many_to_one
+  }
+
+}
+
+explore: bootcamp_store_id {
+  label: "Store Id"
+  join: fact_table {
+    sql_on: ${fact_table.store_id} = ${bootcamp_store_id.store_id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: bootcamp_sales01 {
+  label: "System1"
+}
+
+explore: bootcamp_sales02 {
+  label: "System2"
+}
+
+explore: bootcamp_sales03 {
+  label: "System3"
+}
+
+explore: bootcamp_sales04 {
+  label: "System4"
+}
+
+explore: bootcamp_sales05 {
+  label: "System5"
+}

@@ -1,0 +1,106 @@
+view: fact_table {
+
+  derived_table: {
+    sql:
+    SELECT * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Sales01`
+    WHERE EXTRACT(YEAR FROM date) = 2022
+    UNION ALL
+    SELECT * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Sales02`
+    WHERE EXTRACT(YEAR FROM date) = 2022
+    UNION ALL
+    SELECT * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Sales03`
+    WHERE EXTRACT(YEAR FROM date) = 2022
+    UNION ALL
+    SELECT * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Sales04`
+    WHERE EXTRACT(YEAR FROM date) = 2022
+    UNION ALL
+    SELECT vendedor as clerk_id, Cliente as customer_id, Fecha as date, Descuento as discount, Producto as product_id, Cantidad as quantity_id, Almacen as store_id, id_Venta as venta_id
+    FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Sales05`
+    WHERE EXTRACT(YEAR FROM fecha) = 2022;;
+}
+
+dimension: comission_id{
+  type: number
+  sql: ${TABLE}.Comissión_id;;
+}
+
+dimension: clerk_id {
+  type: number
+  sql: ${TABLE}.Clerk_id ;;
+}
+
+dimension: customer_id {
+  type: number
+  sql: ${TABLE}.Customer_id ;;
+}
+
+dimension_group: date {
+  type: time
+  timeframes: [
+    raw,
+    date,
+    week,
+    month,
+    quarter,
+    year
+  ]
+  convert_tz: no
+  datatype: date
+  sql: ${TABLE}.Date;;
+}
+
+dimension: discount {
+  type: number
+  sql: ${TABLE}.Discount ;;
+}
+
+dimension: product_id {
+  type: number
+  sql: ${TABLE}.Product_id ;;
+}
+
+dimension: quantity_id {
+  type: number
+  sql: ${TABLE}.Quantity_id ;;
+}
+
+dimension: precio_por_unidad{
+  type: number
+  sql: ${TABLE}_PrecioUnidad_ ;;
+}
+
+
+dimension: store_id {
+  type: number
+  sql: ${TABLE}.Store_id ;;
+}
+
+dimension: venta_id {
+  type: number
+  sql: ${TABLE}.Venta_id ;;
+}
+
+measure: Count_product {
+  type: string
+  sql: count(${TABLE}.product_id) ;;
+}
+
+measure: sum_total_quantity {
+  type: number
+  sql: SUM(${quantity_id}) ;;
+}
+
+measure: count_q {
+  type: string
+  sql: count(${TABLE}.Quantity_id) ;;
+}
+measure: Count_vendedor {
+  type: string
+  sql: count(${TABLE}.clerk_id) ;;
+}
+measure: count_vent {
+  type: number
+  sql:  count(*) ;;
+
+}
+}

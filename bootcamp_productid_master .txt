@@ -1,0 +1,56 @@
+view: bootcamp_productid_master {
+  sql_table_name: `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Productid_Master`
+    ;;
+
+  dimension: _costo_unitario_ {
+    type: number
+    sql: ${TABLE}._CostoUnitario_ ;;
+  }
+
+
+  dimension: precio_unidad {
+    type: number
+    sql: ${TABLE}._PrecioUnidad_ ;;
+  }
+
+
+
+  dimension: cantidad_por_unidad {
+    type: string
+    sql: ${TABLE}.CantidadPorUnidad;;
+  }
+
+
+  dimension: categor__a {
+    type: string
+    sql: ${TABLE}.Categor__a ;;
+  }
+
+
+    dimension: id_producto {
+    type: number
+    sql: ${TABLE}.IdProducto;;
+  }
+
+  dimension: nombre_producto {
+    type: string
+    sql: ${TABLE}.NombreProducto ;;
+  }
+
+  dimension: proveedor {
+    type: string
+    sql: ${TABLE}.Proveedor ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [id_producto]
+  }
+  measure: total_sales {
+    type: sum
+    sql: ${id_producto} *${precio_unidad} ;;
+  }
+
+
+
+}

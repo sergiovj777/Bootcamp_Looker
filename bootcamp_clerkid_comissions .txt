@@ -1,0 +1,32 @@
+view: bootcamp_clerkid_comissions {
+  #sql_table_name: `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Clerkid_Comissions`
+  derived_table: {
+    sql: select * FROM `purplelab-dev.LOOKER_ANALYTICS.Bootcamp_Clerkid_Comissions`
+      where Store_id != 0 ;;
+  }
+
+  dimension: clerk_comision {
+    type: number
+    sql: ${TABLE}.ClerkComision ;;
+  }
+
+  dimension: store_id {
+    type: number
+    sql: ${TABLE}.Store_id ;;
+  }
+
+  dimension: store_name {
+    type: string
+    sql: REGEXP_REPLACE(${TABLE}.Store_Name, '[0-9]+', '');;
+  }
+
+  dimension: vendedor {
+    type:number
+    sql: ${TABLE}.Vendedor ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [store_name]
+  }
+}
